@@ -7,6 +7,7 @@ import javax.persistence.*;  //**
  * Date: 13. 5. 24. Time: 오후 7:43
  */
 @Entity
+//@org.hibernate.annotations.DynamicUpdate // 해당 어노테이션 적용시 수정된 데이터만 update 수정됨.
 @Table(name="MEMBER")
 public class Member {
 

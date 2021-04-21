@@ -18,8 +18,6 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction(); //트랜잭션 기능 획득
 
         try {
-
-
             tx.begin(); //트랜잭션 시작
             logic(em);  //비즈니스 로직
             tx.commit();//트랜잭션 커밋
@@ -53,7 +51,7 @@ public class JpaMain {
 
         // ============================== 수정 start
         //수정
-        member.setAge(5);
+        member.setAge(108);
         // ============================== 수정 end : entity값만 변경되어도 JPA가 추적하여 값을 수정한다.
 
         // ========================// 준영속 상태
@@ -63,9 +61,21 @@ public class JpaMain {
         // ==> 하나씩 확인해 보면, 아래 조회시에 전부 NullPointException / IllegalStateException 이 발생한다.
 
         //한 건 조회
-        Member findMember = em.find(Member.class, id);
+        Member findMember1 = em.find(Member.class, id);
 //        System.out.println("findMember=" + findMember.getUsername() + ", age=" + findMember.getAge());
-        System.out.println(findMember.toString());
+        System.out.println("=====// 1 : " + findMember1.toString());
+
+        Member findMember2 = em.find(Member.class, id);
+        System.out.println("=====// 2 : " + findMember2.toString());
+
+        // 동일성 비교
+        System.out.println(findMember1 == findMember2);
+
+
+
+
+
+
 
         //목록 조회
 //        List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
