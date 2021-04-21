@@ -10,6 +10,8 @@ import javax.persistence.*;  //**
 @Table(name="MEMBER")
 public class Member {
 
+
+    // ================== Field
     @Id
     @Column(name = "ID")
     private String id;
@@ -19,9 +21,7 @@ public class Member {
 
     private Integer age;
 
-
-
-
+    // ================== Getter & Setter
     public String getId() {
         return id;
     }
@@ -44,5 +44,14 @@ public class Member {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

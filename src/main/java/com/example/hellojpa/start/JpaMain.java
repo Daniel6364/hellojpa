@@ -1,6 +1,7 @@
 package com.example.hellojpa.start;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,28 +36,50 @@ public class JpaMain {
 
     public static void logic(EntityManager em) {
 
-        String id = "id1";
+
+        // ============================== 등록 start
+        String id = "id003";
         Member member = new Member();
-//        member.setId(id);
-        member.setUsername("다니엘");
-//        member.setAge(2);
+        member.setId(id);
+        member.setUsername("시카고");
+        member.setAge(2);
+        // ==> 비영속상태
+
 
         //등록
         em.persist(member);
+        // ==> 영속상태태
+        // ============================= 등록 end
 
+        // ============================== 수정 start
         //수정
-        member.setAge(37);
+        member.setAge(5);
+        // ============================== 수정 end : entity값만 변경되어도 JPA가 추적하여 값을 수정한다.
+
+        // ========================// 준영속 상태
+//        em.detach(member); // 준영속 상태로 변경
+//        em.clear(); // 영속성 컨테스트 초기화
+//        em.close(); // 영속성 컨테스트 닫기
+        // ==> 하나씩 확인해 보면, 아래 조회시에 전부 NullPointException / IllegalStateException 이 발생한다.
 
         //한 건 조회
         Member findMember = em.find(Member.class, id);
-        System.out.println("findMember=" + findMember.getUsername() + ", age=" + findMember.getAge());
+//        System.out.println("findMember=" + findMember.getUsername() + ", age=" + findMember.getAge());
+        System.out.println(findMember.toString());
 
         //목록 조회
-        List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+//        List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+        TypedQuery<Member> query = em.createQuery("select mb from Member mb", Member.class);
+        List<Member> members = query.getResultList();
+
         System.out.println("members.size=" + members.size());
+        System.out.println("===// List");
+        System.out.println(Arrays.toString(members.toArray()));
+
 
         //삭제
-//        em.remove(member);
-
+        em.remove(member);
+        // 트랜젝션 커밋 전 삭제로 인해 DB에 데이터 없음음
     }
+
 }
